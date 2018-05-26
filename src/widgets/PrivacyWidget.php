@@ -37,7 +37,7 @@ class PrivacyWidget extends Widget
     /**
      * @var string Link to the privacy policy page
      */
-    public $messageLink;
+    public $messageLink = '';
     
     /**
      * @var string Text on the accept button
@@ -66,6 +66,11 @@ class PrivacyWidget extends Widget
     public $declinePrivacyButtonClass = 'btn';
 
     /**
+     * @var bool Whether the buttons should be forced.
+     */
+    public $forceOutput = false;
+
+    /**
      * Add a decline cookie. Needed to set the declined privacy policies cookie.
      */
     private $addDeclineCookie = false;
@@ -89,6 +94,9 @@ class PrivacyWidget extends Widget
                     .privacyPolicyConsent.top {
                         top: 0;
                         bottom: unset;
+                    }
+                    .privacyPolicyConsent a {
+                        color: #fff;
                     }';
 
     /**
@@ -112,23 +120,19 @@ class PrivacyWidget extends Widget
      */
     public function init()
     {
-        if (!$this->isPrivacyAccepted()) {
-            if (!$this->isPrivacyDeclined()) {
-                $privacyPolicy = Yii::$app->request->post('_privacyPolicy', null);
-                if (!empty($privacyPolicy)){
-                    if ($privacyPolicy === 'true') {
-                       Yii::$app->response->cookies->add(new Cookie(["name" => "_privacyPolicy", "value" => true]));
-                       return;
-                    } elseif ($privacyPolicy === 'false') {
-                        Yii::$app->response->cookies->add(new Cookie(["name" => "_privacyPolicy", "value" => false]));
-                        $this->addDeclineCookie = true;
-                    }
-                } else {
-                    parent::init();
-                    $this->setMessages();
-                    Module::onLoad();
-                }
+        parent::init();
+        $this->setMessages();
+        Module::onLoad();
+        $privacyPolicy = Yii::$app->request->post('_privacyPolicy', null);
+        if (!empty($privacyPolicy)){
+            if ($privacyPolicy === 'true') {
+                Yii::$app->response->cookies->add(new Cookie(["name" => "_privacyPolicy", "value" => true]));
+            } elseif ($privacyPolicy === 'false') {
+                Yii::$app->response->cookies->add(new Cookie(["name" => "_privacyPolicy", "value" => false]));
+                $this->addDeclineCookie = true;
             }
+        }
+        if (!$this->isPrivacyAccepted()) {
             Yii::$app->on(Yii::$app::EVENT_AFTER_REQUEST, function ($event) {
                 Yii::$app->response->cookies->removeAll();
                 if ($this->addDeclineCookie) Yii::$app->response->cookies->add(new Cookie(["name" => "_privacyPolicy", "value" => false]));
@@ -141,19 +145,17 @@ class PrivacyWidget extends Widget
      */
     public function run()
     {
-        if (!$this->isPrivacyAccepted() ) {
-            if (!$this->isPrivacyDeclined()) {
-                $this->getView()->registerCss($this->css);
-                return $this->render('privacy-widget', [
-                    'privacyMessage' => $this->privacyMessage,
-                    'link' => $this->messageLink,
-                    'acceptPrivacyButtonText' => $this->acceptPrivacyButtonText,
-                    'acceptPrivacyButtonClass' => $this->acceptPrivacyButtonClass,
-                    'declineButton' => $this->declineButton,
-                    'declinePrivacyButtonText' => $this->declinePrivacyButtonText,
-                    'declinePrivacyButtonClass' => $this->declinePrivacyButtonClass,
-                ]);
-            }
+        if ((!$this->isPrivacyAccepted() && !$this->isPrivacyDeclined()) || $this->forceOutput) {
+            $this->getView()->registerCss($this->css);
+            return $this->render('privacy-widget', [
+                'privacyMessage' => $this->privacyMessage,
+                'messageLink' => $this->messageLink,
+                'acceptPrivacyButtonText' => $this->acceptPrivacyButtonText,
+                'acceptPrivacyButtonClass' => $this->acceptPrivacyButtonClass,
+                'declineButton' => $this->declineButton,
+                'declinePrivacyButtonText' => $this->declinePrivacyButtonText,
+                'declinePrivacyButtonClass' => $this->declinePrivacyButtonClass,
+            ]);
         }
     }
 }
