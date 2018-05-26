@@ -16,7 +16,9 @@ use luya\privacy\traits\PrivacyTrait;
  * This widget will show a privacy notification. It includes a privacy (cookie) message, which can be accepted.
  * 
  * ```php
- * PrivacyWidget::widget();
+ * PrivacyWidget::widget([
+ * 
+ * ]);
  * ```
  *
  * @author Alex Schmid <alex.schmid@stud.unibas.ch>
@@ -45,13 +47,28 @@ class PrivacyWidget extends Widget
     /**
      * @var string Accept privacy policy button css class
      */
-    public $acceptPrivacyButtonClass = 'btn';
+    public $acceptPrivacyButtonClass = 'btn btn-primary';
 
     /**
      * @var bool Whether it should have a decline button or not
      * @todo Implement decline functionality
      */
-    public $addDeclineCookie = false;
+    public $declineButton = false;
+
+    /**
+     * @var string Text on the decline button
+     */
+    public $declinePrivacyButtonText;
+
+    /**
+     * @var string Decline privacy policy button css class
+     */
+    public $declinePrivacyButtonClass = 'btn';
+
+    /**
+     * Add a decline cookie. Needed to set the declined privacy policies cookie.
+     */
+    private $addDeclineCookie = false;
 
     /**
      * @var string CSS to be applied
@@ -84,6 +101,9 @@ class PrivacyWidget extends Widget
         }
         if(empty($this->acceptPrivacyButtonText)) {
             $this->acceptPrivacyButtonText = Module::t('privacy_widget.accept_privacy_button_text');
+        }
+        if(empty($this->declinePrivacyButtonText)) {
+            $this->declinePrivacyButtonText = Module::t('privacy_widget.decline_privacy_button_text');
         }
     }
 
@@ -129,6 +149,9 @@ class PrivacyWidget extends Widget
                     'link' => $this->messageLink,
                     'acceptPrivacyButtonText' => $this->acceptPrivacyButtonText,
                     'acceptPrivacyButtonClass' => $this->acceptPrivacyButtonClass,
+                    'declineButton' => $this->declineButton,
+                    'declinePrivacyButtonText' => $this->declinePrivacyButtonText,
+                    'declinePrivacyButtonClass' => $this->declinePrivacyButtonClass,
                 ]);
             }
         }
