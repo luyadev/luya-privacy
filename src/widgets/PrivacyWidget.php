@@ -1,6 +1,7 @@
 <?php
 namespace luya\privacy\widgets;
 
+use luya\privacy\BasePrivacyWidget;
 use Yii;
 use yii\web\Cookie;
 use luya\base\Widget;
@@ -16,19 +17,17 @@ use luya\privacy\traits\PrivacyTrait;
  * This widget will show a privacy notification. It includes a privacy (cookie) message, which can be accepted.
  * 
  * ```php
- * PrivacyWidget::widget([
- * 
- * ]);
+ * PrivacyWidget::widget();
  * ```
  *
  * @author Alex Schmid <alex.schmid@stud.unibas.ch>
  * @since 1.0.0
+ * 
+ * @todo Widget id must be better
+ * @todo Position -> fixed / relative
  */
-
-class PrivacyWidget extends Widget
-{
-    use PrivacyTrait;
-    
+class PrivacyWidget extends BasePrivacyWidget
+{    
     /**
      * @var string The cookie message which will be shown to the user
      */
@@ -71,11 +70,6 @@ class PrivacyWidget extends Widget
     public $forceOutput = false;
 
     /**
-     * Add a decline cookie. Needed to set the declined privacy policies cookie.
-     */
-    private $addDeclineCookie = false;
-
-    /**
      * @var string CSS to be applied
      */
     public $css = '.privacyPolicyConsent {
@@ -99,6 +93,16 @@ class PrivacyWidget extends Widget
                         color: #fff;
                     }';
 
+    /**
+     * @var bool Whether to remove css or not
+     */
+    public $removeCSS = false;
+
+    /**
+     * Add a decline cookie. Needed to set the declined privacy policies cookie.
+     */
+    private $addDeclineCookie = false;
+    
     /**
      * Translate messages if no widget input
      */
@@ -146,7 +150,7 @@ class PrivacyWidget extends Widget
     public function run()
     {
         if ((!$this->isPrivacyAccepted() && !$this->isPrivacyDeclined()) || $this->forceOutput) {
-            $this->getView()->registerCss($this->css);
+            if (!$this->removeCSS) $this->getView()->registerCss($this->css);
             return $this->render('privacy-widget', [
                 'privacyMessage' => $this->privacyMessage,
                 'messageLink' => $this->messageLink,

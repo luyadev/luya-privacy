@@ -19,6 +19,10 @@ Install the extension through composer:
 
 `composer require luyadev/luya-privacy:dev-master`
 
+Then import the blocks
+
+`./luya import`
+
 ## Privacy cookie widget
 The privacy widget shows a privacy warning and stops cookies. 
 It can be set to use no cookie at all or to place a single cookie and save that the user declined.
