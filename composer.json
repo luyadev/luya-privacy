@@ -1,0 +1,50 @@
+{
+	"name" : "luyadev/luya-privacy",
+	"description" : "The LUYA Privacy extension provides helpers for privacy.",
+	"type" : "luya-extension",
+	"keywords" : ["php", "luya", "extension", "yii2", "yii", "content"],
+	"license": "MIT",
+	"homepage" : "http://luya.io",
+	"authors" : [
+		{
+			"name" : "Basil Suter",
+			"email" : "git@nadar.io",
+			"homepage" : "https://github.com/nadar"
+		}
+	],
+	"support" : {
+		"issues" : "https://github.com/luyadev/luya-privacy/issues"
+	},
+	"require-dev" : {
+	    "luyadev/luya-testsuite" : "~1.0.0",
+	    "php-coveralls/php-coveralls": "^1.0",
+        "twbs/bootstrap": "v4.0.0-beta"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"luya\\privacy\\" : "src/"
+		}
+	},
+	"autoload-dev" : {
+       "psr-4" : {
+           "privacytests\\" : "tests/"
+       }
+    },
+	"extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        },
+        "luya" : {
+        	"blocks" : ["src/frontend/blocks"]
+        }
+    },
+    "config": {
+         "platform": {"php": "7.0"}  
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}
