@@ -15,5 +15,3 @@
         <?php endif; ?>
     </div>
 </form>
-
-

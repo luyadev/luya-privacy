@@ -1,5 +1,17 @@
-# luya-privacy
-Helpers for privacy stuff
+<p align="center">
+  <img src="https://raw.githubusercontent.com/luyadev/luya/master/docs/logo/luya-logo-0.2x.png" alt="LUYA Logo"/>
+</p>
+
+# LUYA privacy extension
+
+[![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
+[![Latest Stable Version](https://poser.pugx.org/luyadev/luya-privacy/v/stable)](https://packagist.org/packages/luyadev/luya-privacy)
+[![Total Downloads](https://poser.pugx.org/luyadev/luya-privacy/downloads)](https://packagist.org/packages/luyadev/luya-privacy)
+[![Slack Support](https://img.shields.io/badge/Slack-luyadev-yellowgreen.svg)](https://slack.luya.io/)
+
+The LUYA privacy extension has helpers for privacy management, as needed by certain privacy laws.
+It includes:
+- [Privacy cookie widget](#privacy-cookie-widget)
 
 ## Installation
 
