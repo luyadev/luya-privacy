@@ -15,14 +15,16 @@ use yii\web\Cookie;
  */
 trait PrivacyTrait
 {
+    static $PRIVACY_COOKIE_NAME = '_privacyPolicy';
+
     /**
      * @return bool|null The privacy value
      */
     public function getPrivacyCookieValue()
     {
-        return Yii::$app->response->cookies->getValue('_privacyPolicy', null) !== null ?
-            Yii::$app->response->cookies->getValue('_privacyPolicy') : 
-            Yii::$app->request->cookies->getValue('_privacyPolicy', null);
+        return Yii::$app->response->cookies->getValue(self::$PRIVACY_COOKIE_NAME, null) !== null ?
+            Yii::$app->response->cookies->getValue(self::$PRIVACY_COOKIE_NAME) :
+            Yii::$app->request->cookies->getValue(self::$PRIVACY_COOKIE_NAME, null);
     }
 
     /**
@@ -30,7 +32,7 @@ trait PrivacyTrait
      */
     public function setPrivacyCookieValue($value = null)
     {
-        Yii::$app->response->cookies->add(new Cookie(['name' => '_privacyPolicy', $value]));
+        Yii::$app->response->cookies->add(new Cookie(['name' => self::$PRIVACY_COOKIE_NAME, $value]));
     }
 
     /**
