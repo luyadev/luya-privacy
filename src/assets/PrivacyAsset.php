@@ -39,24 +39,11 @@ class PrivacyAsset extends Asset
     /**
      * @inheritdoc
      */
-    function registerAssetFiles($view)
+    public function init()
     {
-        parent::registerAssetFiles($view);
-        
-        if ($this->isPrivacyAccepted())
-        {
-            foreach ($this->jsOnPrivacyAccepted as $js)
-            {
-                if (is_array($js)) {
-                    $file = array_shift($js);
-                    $options = ArrayHelper::merge($this->jsOptions, $js);
-                    $view->registerJsFile($manager->getAssetUrl($this, $file), $options);
-                } else {
-                    if ($js !== null) {
-                        $view->registerJsFile($manager->getAssetUrl($this, $js), $this->jsOptions);
-                    }
-                }
-            }
+        parent::init();
+        if ($this->isPrivacyAccepted()) {
+            $this->js = array_merge($this->js, $this->jsOnPrivacyAccepted);
         }
     }
 }

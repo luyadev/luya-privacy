@@ -18,7 +18,7 @@ trait PrivacyTrait
     /**
      * @return bool|null The privacy value
      */
-    public function getPrivacy()
+    public function getPrivacyCookieValue()
     {
         return Yii::$app->response->cookies->getValue('_privacyPolicy', null) !== null ?
             Yii::$app->response->cookies->getValue('_privacyPolicy') : 
@@ -28,7 +28,7 @@ trait PrivacyTrait
     /**
      * Sets the privacy
      */
-    public function setPrivacy($value = null)
+    public function setPrivacyCookieValue($value = null)
     {
         Yii::$app->response->cookies->add(new Cookie(['name' => '_privacyPolicy', $value]));
     }
@@ -38,7 +38,7 @@ trait PrivacyTrait
      */
     public function isPrivacyAccepted()
     {
-        return !empty($this->getPrivacy()) ? true : false;
+        return !empty($this->getPrivacyCookieValue()) ? true : false;
     }
 
     /**
@@ -46,6 +46,6 @@ trait PrivacyTrait
      */
     public function isPrivacyDeclined()
     {
-        return ($this->getPrivacy() === false) ? true : false;
+        return ($this->getPrivacyCookieValue() === false) ? true : false;
     }
 }

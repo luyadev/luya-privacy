@@ -16,6 +16,6 @@ abstract class BasePrivacyBlock extends PhpBlock
      */
     public function getViewPath()
     {
-        return '@privacy/views/blocks';
+        return dirname(__DIR__) . '/src/views/blocks';
     }
 }

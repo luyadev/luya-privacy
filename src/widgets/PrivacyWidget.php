@@ -1,7 +1,6 @@
 <?php
 namespace luya\privacy\widgets;
 
-use luya\privacy\BasePrivacyWidget;
 use Yii;
 use yii\web\Cookie;
 use luya\base\Widget;
@@ -26,8 +25,20 @@ use luya\privacy\traits\PrivacyTrait;
  * @todo Widget id must be better
  * @todo Position -> fixed / relative
  */
-class PrivacyWidget extends BasePrivacyWidget
-{    
+class PrivacyWidget extends Widget
+{
+    use PrivacyTrait;
+
+    const PRIVACY_COOKIE_NAME = '_privacyPolicy';
+
+    /**
+     * @inheritdoc
+     */
+    public function getViewPath()
+    {
+        return '@privacy/views/widgets';
+    }
+
     /**
      * @var string The cookie message which will be shown to the user
      */
@@ -126,20 +137,19 @@ class PrivacyWidget extends BasePrivacyWidget
     {
         parent::init();
         $this->setMessages();
-        Module::onLoad();
-        $privacyPolicy = Yii::$app->request->post('_privacyPolicy', null);
+        $privacyPolicy = Yii::$app->request->post(self::PRIVACY_COOKIE_NAME, null);
         if (!empty($privacyPolicy)){
             if ($privacyPolicy === 'true') {
-                Yii::$app->response->cookies->add(new Cookie(["name" => "_privacyPolicy", "value" => true]));
+                Yii::$app->response->cookies->add(new Cookie(["name" => self::PRIVACY_COOKIE_NAME, "value" => true]));
             } elseif ($privacyPolicy === 'false') {
-                Yii::$app->response->cookies->add(new Cookie(["name" => "_privacyPolicy", "value" => false]));
+                Yii::$app->response->cookies->add(new Cookie(["name" => self::PRIVACY_COOKIE_NAME, "value" => false]));
                 $this->addDeclineCookie = true;
             }
         }
         if (!$this->isPrivacyAccepted()) {
             Yii::$app->on(Yii::$app::EVENT_AFTER_REQUEST, function ($event) {
                 Yii::$app->response->cookies->removeAll();
-                if ($this->addDeclineCookie) Yii::$app->response->cookies->add(new Cookie(["name" => "_privacyPolicy", "value" => false]));
+                if ($this->addDeclineCookie) Yii::$app->response->cookies->add(new Cookie(["name" => self::PRIVACY_COOKIE_NAME, "value" => false]));
             });
         }
     }
