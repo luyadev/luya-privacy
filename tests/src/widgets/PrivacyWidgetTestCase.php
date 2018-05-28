@@ -1,5 +1,5 @@
 <?php
-namespace luya\privacytests\widgets;
+namespace luya\privacy\tests\widgets;
 
 use luya\privacy\widgets\PrivacyWidget;
 use luya\privacytests\PrivacyTestCase;

@@ -7,15 +7,15 @@ use yii\web\Cookie;
 
 /**
  * Trait PrivacyTrait
- * 
+ *
  * The privacy trait helps getting and setting the privacy policy state.
- * 
+ *
  * @author Alex Schmid <alex.schmid@stud.unibas.ch>
  * @since 1.0.0
  */
 trait PrivacyTrait
 {
-    static $PRIVACY_COOKIE_NAME = '_privacyPolicy';
+    public static $PRIVACY_COOKIE_NAME = '_privacyPolicy';
 
     /**
      * @return bool|null The privacy value
@@ -32,7 +32,7 @@ trait PrivacyTrait
      */
     public function setPrivacyCookieValue($value = null)
     {
-        Yii::$app->response->cookies->add(new Cookie(['name' => self::$PRIVACY_COOKIE_NAME, $value]));
+        Yii::$app->response->cookies->add(new Cookie(['name' => self::$PRIVACY_COOKIE_NAME, 'value' => $value]));
     }
 
     /**

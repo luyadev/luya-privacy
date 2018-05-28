@@ -19,6 +19,9 @@
 	"support" : {
 		"issues" : "https://github.com/luyadev/luya-privacy/issues"
 	},
+	"require-dev" : {
+	    "luyadev/luya-testsuite" : "~1.0.0",
+	},
 	"autoload" : {
 		"psr-4" : {
 			"luya\\privacy\\" : "src/"
@@ -34,10 +37,4 @@
         	"blocks" : ["src/frontend/blocks"]
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ]
 }

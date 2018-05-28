@@ -57,7 +57,6 @@ class PrivacyBlock extends BasePrivacyBlock
                 ['var' => 'declineButton', 'type' => self::TYPE_CHECKBOX, 'label' => Module::t('block_privacy.decline_privacy_button_text'), 'initvalue' => 1],
                 ['var' => 'forceOutput', 'type' => self::TYPE_CHECKBOX, 'label' => Module::t('block_privacy.force_output'), 'initvalue' => 1],
                 ['var' => 'css', 'type' => self::TYPE_TEXTAREA, 'label' => Module::t('block_privacy.custom_css'), 'initvalue' => ''],
-                ['var' => 'removeCSS', 'type' => self::TYPE_CHECKBOX, 'label' => Module::t('block_privacy.remove_css')]
             ]
         ];
     }
@@ -71,8 +70,7 @@ class PrivacyBlock extends BasePrivacyBlock
         $cfgs = $this->getCfgValues();
         $cfgs['declineButton'] = $cfgs['declineButton'] == 1 ? true : false;
         $cfgs['forceOutput'] = $cfgs['forceOutput'] == 1 ? true : false;
-        $cfgs['removeCSS'] = $cfgs['removeCSS'] == 1 ? true : false;
-        return array_merge($vars,$cfgs);
+        return array_merge($vars, $cfgs);
     }
 
     /**
@@ -87,8 +85,8 @@ class PrivacyBlock extends BasePrivacyBlock
 
     /**
      * @inheritdoc
+     * @todo Needs adjustment to display correct
      */
-    // Todo: Needs adjustment to display correct
     public function admin()
     {
         return '<div>Privacy Bar</div>';

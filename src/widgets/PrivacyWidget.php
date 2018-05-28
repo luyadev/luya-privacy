@@ -12,32 +12,22 @@ use luya\privacy\traits\PrivacyTrait;
 
 /**
  * Privacy Widget
- * 
+ *
  * This widget will show a privacy notification. It includes a privacy (cookie) message, which can be accepted.
- * 
+ *
  * ```php
  * PrivacyWidget::widget();
  * ```
  *
  * @author Alex Schmid <alex.schmid@stud.unibas.ch>
  * @since 1.0.0
- * 
+ *
  * @todo Widget id must be better
  * @todo Position -> fixed / relative
  */
 class PrivacyWidget extends Widget
 {
     use PrivacyTrait;
-
-    const PRIVACY_COOKIE_NAME = '_privacyPolicy';
-
-    /**
-     * @inheritdoc
-     */
-    public function getViewPath()
-    {
-        return '@privacy/views/widgets';
-    }
 
     /**
      * @var string The cookie message which will be shown to the user
@@ -105,11 +95,6 @@ class PrivacyWidget extends Widget
                     }';
 
     /**
-     * @var bool Whether to remove css or not
-     */
-    public $removeCSS = false;
-
-    /**
      * Add a decline cookie. Needed to set the declined privacy policies cookie.
      */
     private $addDeclineCookie = false;
@@ -122,10 +107,10 @@ class PrivacyWidget extends Widget
         if (empty($this->privacyMessage)) {
             $this->privacyMessage = Module::t('privacy_widget.privacy_message');
         }
-        if(empty($this->acceptPrivacyButtonText)) {
+        if (empty($this->acceptPrivacyButtonText)) {
             $this->acceptPrivacyButtonText = Module::t('privacy_widget.accept_privacy_button_text');
         }
-        if(empty($this->declinePrivacyButtonText)) {
+        if (empty($this->declinePrivacyButtonText)) {
             $this->declinePrivacyButtonText = Module::t('privacy_widget.decline_privacy_button_text');
         }
     }
@@ -137,20 +122,13 @@ class PrivacyWidget extends Widget
     {
         parent::init();
         $this->setMessages();
-        $privacyPolicy = Yii::$app->request->post(self::PRIVACY_COOKIE_NAME, null);
-        if (!empty($privacyPolicy)){
+        $privacyPolicy = Yii::$app->request->post(self::$PRIVACY_COOKIE_NAME, null);
+        if (!empty($privacyPolicy)) {
             if ($privacyPolicy === 'true') {
-                Yii::$app->response->cookies->add(new Cookie(["name" => self::PRIVACY_COOKIE_NAME, "value" => true]));
+                $this->setPrivacyCookieValue(true);
             } elseif ($privacyPolicy === 'false') {
-                Yii::$app->response->cookies->add(new Cookie(["name" => self::PRIVACY_COOKIE_NAME, "value" => false]));
-                $this->addDeclineCookie = true;
+                $this->setPrivacyCookieValue(false);
             }
-        }
-        if (!$this->isPrivacyAccepted()) {
-            Yii::$app->on(Yii::$app::EVENT_AFTER_REQUEST, function ($event) {
-                Yii::$app->response->cookies->removeAll();
-                if ($this->addDeclineCookie) Yii::$app->response->cookies->add(new Cookie(["name" => self::PRIVACY_COOKIE_NAME, "value" => false]));
-            });
         }
     }
 
@@ -160,7 +138,9 @@ class PrivacyWidget extends Widget
     public function run()
     {
         if ((!$this->isPrivacyAccepted() && !$this->isPrivacyDeclined()) || $this->forceOutput) {
-            if (!$this->removeCSS) $this->getView()->registerCss($this->css);
+            if ($this->css) {
+                $this->getView()->registerCss($this->css);
+            }
             return $this->render('privacy-widget', [
                 'privacyMessage' => $this->privacyMessage,
                 'messageLink' => $this->messageLink,

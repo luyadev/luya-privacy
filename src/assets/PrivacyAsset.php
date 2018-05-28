@@ -8,9 +8,9 @@ use luya\web\Asset;
 
 /**
  * Privacy Asset File.
- * 
+ *
  * The privacy asset file adds the possibility to add javascript files which need the privacy policy accepted.
- * 
+ *
  * @author Alex Schmid <alex.schmid@stud.unibas.ch>
  * @since 1.0.0
  */
@@ -19,7 +19,7 @@ class PrivacyAsset extends Asset
     use PrivacyTrait;
 
     /**
-     * @var array list of JavaScript files that this bundle contains which need privacy policies allowed. 
+     * @var array list of JavaScript files that this bundle contains which need privacy policies allowed.
      * Each JavaScript file can be specified in one of the following formats:
      *
      * - an absolute URL representing an external asset. For example,
