@@ -35,21 +35,20 @@ It can be set to use no cookie at all or to place a single cookie and save that 
 The privacy widget must be placed somewhere on the page, e.g. inside the main layout.
 ```
 <?= \luya\privacy\widgets\PrivacyWidget::widget([
-    'message' => 'We use cookies on our site. Please read and accept our privacy agreement',
-    'messageWrapperOptions' => [
+    'message' => [
+        'message' => 'We use cookies on our site. Please read and accept our privacy agreement',
         'tag' => 'a',
         'class' => 'message',
         'href' => '/privacy'
         ],
-    'acceptButtonText' => 'I accept',
-    'acceptButtonOptions' => [
+    'acceptButtonText' => [
+        'message' => 'I accept',
         'tag' => 'button',
         'value' => true,
         'class' => 'btn btn-primary',
     ],
-    'declineButton' => true,
-    'declineButtonText' => 'I decline',
-    'declineButtonOptions => [
+    'declineButtonText' => [
+        'message' => 'I decline',
         'tag' => 'button',
         'value' => false,
         'class' => 'btn',
