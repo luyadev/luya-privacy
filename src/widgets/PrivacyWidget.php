@@ -16,26 +16,31 @@ use luya\privacy\traits\PrivacyTrait;
 /**
  * Privacy Widget
  *
- * This widget will show a privacy notification. It includes a privacy (cookie) message, which can be accepted.
+ * This widget will show a privacy notification. It includes a privacy cookie message, which can be accepted or declined.
+ * The cookie message will disappear after the user has taken a choice and if forceOutput is false. Otherwise it will show up.
+ * All settings can be passed as an array to the widget.
+ *
+ * Attention: The widget's functionality can be broken if it is not correctly used! It has to be taken in account that
+ * the trackers or other cookies need to be set through either the \luya\privacy\assets\PrivacyAsset's $jsOnPrivacyAccepted
+ * or having been checked through \luya\privacy\traits\PrivacyTrait's `isPrivacyAccepted()` method.
  *
  * Usage:
  * ```php
  * PrivacyWidget::widget([
- *      'message' => 'We use cookies on our site. Please read and accept our privacy agreement',
- *      'messageWrapperOptions' => [
+ *      'message' => [
+ *          'message' => 'We use cookies on our site. Please read and accept our privacy agreement',
  *          'tag' => 'a',
  *          'class' => 'message',
  *          'href' => '/privacy'
  *      ],
- *      'acceptButtonText' => 'I accept',
- *      'acceptButtonOptions' => [
+ *      'acceptButton' => [
+ *          'message' => 'I accept',,
  *          'tag' => 'button',
  *          'value' => true,
  *          'class' => 'btn btn-primary',
  *      ],
- *      'declineButton' => true,
- *      'declineButtonText' => 'I decline',
- *      'declineButtonOptions => [
+ *      'declineButtonText' => [
+ *          'message' =>  'I decline',
  *          'tag' => 'button',
  *          'value' => false,
  *          'class' => 'btn',
@@ -66,7 +71,11 @@ class PrivacyWidget extends Widget
      * If not set it will use a default message in English:
      * `We use cookies to improve your experience on our website. Please read and accept our privacy policies.`
      */
-    public $message;
+    public $message = [
+        'tag' => 'a',
+        'class' => 'message',
+        'href' => '/privacy'
+    ];
 
     /**
      * @var null|array If set, a wrapper will be wrapped around the message
@@ -81,26 +90,18 @@ class PrivacyWidget extends Widget
     ];
 
     /**
-     * @var string Text on the accept button
-     */
-    public $acceptButtonText;
-
-    /**
      * @var null|array If set, a wrapper will be wrapped around the message
      * - tag: The tag for the wrapper, e.g. `a`
      * - class: Class or classes for the wrapper
+     *
+     * Attention: Functionality can be broken!
      */
-    public $acceptButtonOptions = [
+    public $acceptButton = [
         'tag' => 'button',
         'value' => "true",
         'class' => 'btn btn-primary',
         'type' => 'submit'
     ];
-
-    /**
-     * @var string Text on the decline button
-     */
-    public $declineButtonText;
 
     /**
      * @var null|array If set, a wrapper will be wrapped around the message
@@ -109,7 +110,7 @@ class PrivacyWidget extends Widget
      *
      * Attention: Functionality can be broken!
      */
-    public $declineButtonOptions = [
+    public $declineButton= [
         'tag' => 'button',
         'value' => "false",
         'class' => 'btn',
@@ -148,19 +149,18 @@ class PrivacyWidget extends Widget
                     }';
 
     /**
-     * Translate messages if no widget input
+     * @param $config The configuration (E.g. the button config).
+     * @param $defaultTag The html tag which is used as default if there is nothing set.
+     * @param $defaultMessage The message which is set if there is nothing set.
+     * @return string
      */
-    private function setMessages()
+    protected function buildTag($config, $defaultTag, $defaultMessage)
     {
-        if (empty($this->message)) {
-            $this->message = Module::t('privacy_widget.privacy_message');
-        }
-        if (empty($this->acceptButtonText)) {
-            $this->acceptButtonText = Module::t('privacy_widget.accept_privacy_button_text');
-        }
-        if (empty($this->declineButtonText)) {
-            $this->declineButtonText = Module::t('privacy_widget.decline_privacy_button_text');
-        }
+        if ($config === false)
+            return '';
+        $tag = ArrayHelper::remove($config, 'tag', $defaultTag);
+        $message = ArrayHelper::remove($config, 'message', $defaultMessage);
+        return Html::tag($tag, $message, $config);
     }
 
     /**
@@ -170,8 +170,8 @@ class PrivacyWidget extends Widget
      */
     private function setNames()
     {
-        $this->acceptButtonOptions['name'] = self::$PRIVACY_COOKIE_NAME;
-        $this->declineButtonOptions['name'] = self::$PRIVACY_COOKIE_NAME;
+        if (!empty($this->acceptButton)) $this->acceptButton['name'] = self::$PRIVACY_COOKIE_NAME;
+        if (!empty($this->declineButton)) $this->declineButton['name'] = self::$PRIVACY_COOKIE_NAME;
     }
 
     /**
@@ -180,7 +180,6 @@ class PrivacyWidget extends Widget
     public function init()
     {
         parent::init();
-        $this->setMessages();
         $this->setNames();
         $privacyPolicy = Yii::$app->request->post(self::$PRIVACY_COOKIE_NAME, null);
         if (!empty($privacyPolicy)) {
@@ -204,23 +203,15 @@ class PrivacyWidget extends Widget
             if ($this->css) {
                 $this->getView()->registerCss($this->css);
             }
-            $html = $this->message;
-            if (!empty($this->messageWrapperOptions)) {
-                $wrapperTag = ArrayHelper::remove($this->messageWrapperOptions, 'tag', 'a');
-                $html = Html::tag($wrapperTag, $html, $this->messageWrapperOptions);
-            }
-            if (!empty($this->acceptButtonOptions)){
-                $wrapperTag = ArrayHelper::remove($this->acceptButtonOptions, 'tag', 'button');
-                $buttons = Html::tag($wrapperTag, $this->acceptButtonText, $this->acceptButtonOptions);
-            }
-            if (!empty($this->declineButtonOptions)){
-                $wrapperTag = ArrayHelper::remove($this->declineButtonOptions, 'tag', 'button');
-                $buttons .= Html::tag($wrapperTag, $this->declineButtonText, $this->declineButtonOptions);
-            }
+            $html = $this->buildTag($this->message, 'a', Module::t('privacy_widget.privacy_message'));
+            $buttons = $this->buildTag($this->acceptButton, 'button', Module::t('privacy_widget.accept_privacy_button_text'));
+            $buttons .= $this->buildTag($this->declineButton, 'button', Module::t('privacy_widget.decline_privacy_button_text'));
+
             if (!empty($this->buttonsWrapperOptions)) {
                 $wrapperTag = ArrayHelper::remove($this->buttonsWrapperOptions, 'tag', 'div');
                 $buttons = Html::tag($wrapperTag, $buttons, $this->buttonsWrapperOptions);
             }
+
             $html = Html::tag('form', $html . $buttons,
                 ['action' => ' ', 'method' => 'post', 'class' => 'privacyPolicyConsent', 'id' => self::$PRIVACY_COOKIE_NAME]);
             return $html;
