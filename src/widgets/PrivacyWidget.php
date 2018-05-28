@@ -38,7 +38,7 @@ class PrivacyWidget extends Widget
      * @var string Link to the privacy policy page
      */
     public $messageLink = '';
-    
+
     /**
      * @var string Text on the accept button
      */
@@ -98,7 +98,7 @@ class PrivacyWidget extends Widget
      * Add a decline cookie. Needed to set the declined privacy policies cookie.
      */
     private $addDeclineCookie = false;
-    
+
     /**
      * Translate messages if no widget input
      */
