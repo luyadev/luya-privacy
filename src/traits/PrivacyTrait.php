@@ -26,9 +26,7 @@ trait PrivacyTrait
      */
     public function getPrivacyCookieValue()
     {
-        return Yii::$app->response->cookies->getValue(self::$PRIVACY_COOKIE_NAME, null) !== null ?
-            Yii::$app->response->cookies->getValue(self::$PRIVACY_COOKIE_NAME) :
-            Yii::$app->request->cookies->getValue(self::$PRIVACY_COOKIE_NAME, null);
+        return Yii::$app->response->cookies->getValue(self::$PRIVACY_COOKIE_NAME, null);
     }
 
     /**
@@ -38,7 +36,10 @@ trait PrivacyTrait
      */
     public function setPrivacyCookieValue($value = null)
     {
-        Yii::$app->response->cookies->add(new Cookie(['name' => self::$PRIVACY_COOKIE_NAME, 'value' => $value]));
+        Yii::$app->response->cookies->add(new Cookie([
+            'name' => self::$PRIVACY_COOKIE_NAME,
+            'value' => $value,
+        ]));
     }
 
     /**
@@ -46,7 +47,16 @@ trait PrivacyTrait
      */
     public function isPrivacyAccepted()
     {
-        return !empty($this->getPrivacyCookieValue()) ? true : false;
+        return $this->getPrivacyCookieValue() === true;
+    }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function isPrivacyNotDecided()
+    {
+        return $this->getPrivacyCookieValue() === null;
     }
 
     /**
@@ -54,6 +64,6 @@ trait PrivacyTrait
      */
     public function isPrivacyDeclined()
     {
-        return ($this->getPrivacyCookieValue() === false) ? true : false;
+        return $this->getPrivacyCookieValue() === false;
     }
 }
