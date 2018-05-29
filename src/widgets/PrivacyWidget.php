@@ -2,15 +2,10 @@
 namespace luya\privacy\widgets;
 
 use Yii;
-use yii\web\Cookie;
 use luya\base\Widget;
-use luya\cms\helpers\Url;
 use luya\helpers\ArrayHelper;
-use luya\helpers\Json;
 use luya\helpers\Html;
-
 use luya\privacy\Module;
-use luya\privacy\assets\PrivacyWidgetAsset;
 use luya\privacy\traits\PrivacyTrait;
 
 /**
@@ -25,34 +20,21 @@ use luya\privacy\traits\PrivacyTrait;
  * or having been checked through \luya\privacy\traits\PrivacyTrait's `isPrivacyAccepted()` method.
  *
  * Usage:
+ * 
  * ```php
  * PrivacyWidget::widget([
- *      'content' => [
- *          'content' => 'We use cookies on our site. Please read and accept our privacy agreement',
- *          'tag' => 'a',
- *          'class' => 'content',
- *          'href' => '/privacy'
- *      ],
+ *      'message' => 'We use cookies on our site. Please read and accept our privacy agreement',
  *      'acceptButton' => [
- *          'content' => 'I accept',,
- *          'tag' => 'button',
- *          'value' => true,
- *          'class' => 'btn btn-primary',
+ *          'content' => 'I accept',
  *      ],
- *      'declineButtonText' => [
- *          'content' =>  'I decline',
- *          'tag' => 'button',
- *          'value' => false,
- *          'class' => 'btn',
- *      ],
- *      'forceOutput' => false
  * );
  * ```
  *
- * @author Alex Schmid <alex.schmid@stud.unibas.ch>
- * @since 1.0.0
- *
  * @todo Position -> fixed / relative
+ *
+ * @author Alex Schmid <alex.schmid@stud.unibas.ch>
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class PrivacyWidget extends Widget
 {
@@ -110,6 +92,8 @@ class PrivacyWidget extends Widget
                     }';
 
     /**
+     * Build the html tag.
+     * 
      * @param $config string The configuration (E.g. the button config).
      * @param $defaultTag string The html tag which is used as default if there is nothing set.
      * @param $defaultcontent string The content which is set if there is nothing set.
@@ -140,10 +124,10 @@ class PrivacyWidget extends Widget
     }
 
     /**
-     * @inheritdoc
-     *
      * If privacy policies are whether accepted nor declined, or forcing output is set, it will show up the widget.
      * The widget gives the user the ability to chose the cookie settings.
+     * 
+     * @return string
      */
     public function run()
     {
@@ -153,10 +137,9 @@ class PrivacyWidget extends Widget
         // cookie param provided with status accepted
         if ($acceptCookies == '1') {
             $this->setPrivacyCookieValue(true);
-            // @TODO: maybe we have to complet reload the page in order to see cookie is set.
         }
         
-        if (!$this->isPrivacyAccepted() || $this->forceOutput) {
+        if ($this->isPrivacyNotDecided() || $this->forceOutput) {
             
             return $this->render('privacywidget', [
                 'css' => $this->css,

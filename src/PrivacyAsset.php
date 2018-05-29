@@ -1,8 +1,7 @@
 <?php
 
-namespace luya\privacy\assets;
+namespace luya\privacy;
 
-use luya\admin\assets\Jquery;
 use luya\privacy\traits\PrivacyTrait;
 use luya\web\Asset;
 
@@ -10,6 +9,19 @@ use luya\web\Asset;
  * Privacy Asset File.
  *
  * The privacy asset file adds the possibility to add javascript files which need the privacy policy accepted.
+ * 
+ * Example usage
+ * 
+ * ```php
+ * class MyCustomTrackerAsset extends PrivacyAsset 
+ * {
+ *     
+ *     $jsOnPrivacyAccepted = [
+ *         '//google.com/cdn/js/google-analytics.js',
+ *         '//facebook.com/cdn/js/facebook-pixel.js',
+ *     ]
+ * }
+ * ```
  *
  * @author Alex Schmid <alex.schmid@stud.unibas.ch>
  * @since 1.0.0
@@ -42,6 +54,8 @@ class PrivacyAsset extends Asset
     public function init()
     {
         parent::init();
+        
+        // merge privacy js files with other js files if accepted.
         if ($this->isPrivacyAccepted()) {
             $this->js = array_merge($this->js, $this->jsOnPrivacyAccepted);
         }

@@ -10,10 +10,10 @@
 [![Slack Support](https://img.shields.io/badge/Slack-luyadev-yellowgreen.svg)](https://slack.luya.io/)
 
 The LUYA privacy extension has helpers for privacy management, as needed by certain privacy laws.
-It includes:
-- [Privacy cookie widget](#privacy-cookie-widget)
-- [Privacy asset](#privacy-asset)
-- [Privacy trait](#privacy-trait)
+
++ Widget to agree privacy statement.
++ Asset File to load resources only when cookies are accepted.
++ Trait to attach into your own controllers, blocks etc. in order to trigger whether privacy statements has been accepted or not.
 
 ## Installation
 
@@ -21,59 +21,10 @@ Install the extension through composer:
 
 `composer require luyadev/luya-privacy:dev-master`
 
-Then import the blocks
+## Usage
 
-`./luya import`
+Please take a look at the description in the files for usage and API details:
 
-## Privacy cookie widget
-The privacy widget shows a privacy cookie warning and stops cookies, if they are implemented using the privacy trait as
- check or if they are inside a [PrivacyAsset](https://github.com/luyadev/luya-privacy/blob/master/src/assets/PrivacyAsset.php)
-  in `$jsOnPrivacyAccepted`. 
-It can be set to use no cookie at all or to place a single cookie and save that the user declined.
-
-### Usage
-The privacy widget must be placed somewhere on the page, e.g. inside the main layout.
-```
-<?= \luya\privacy\widgets\PrivacyWidget::widget([
-    'message' => [
-        'message' => 'We use cookies on our site. Please read and accept our privacy agreement',
-        'tag' => 'a',
-        'class' => 'message',
-        'href' => '/privacy'
-        ],
-    'acceptButtonText' => [
-        'message' => 'I accept',
-        'tag' => 'button',
-        'value' => true,
-        'class' => 'btn btn-primary',
-    ],
-    'declineButtonText' => [
-        'message' => 'I decline',
-        'tag' => 'button',
-        'value' => false,
-        'class' => 'btn',
-    ],
-    'forceOutput' => false
-]); ?>
-```
-
-## Privacy asset
-Assets with js cookies should extend [PrivacyAsset](https://github.com/luyadev/luya-privacy/blob/master/src/assets/PrivacyAsset.php)
-They can be included by adding to the `$jsOnPrivacyAccepted` array.
-
-### Usage
-```
-class MyCustomTrackerAsset extends PrivacyAsset 
-{
-    ...
-    
-    $jsOnPrivacyAccepted = [
-        'js/google-analytics.js',
-        'js/facebook-pixel.js',
-    ]
-}
-```
-
-## Privacy trait
-The privacy trait can be used make checks if the privacy policies are accepted, declined or nothing at all. 
-Moreover it can be used to set the state.
++ [Privacy Asset](https://github.com/luyadev/luya-privacy/blob/master/src/PrivacyAsset.php)
++ [Cookie Widget](https://github.com/luyadev/luya-privacy/blob/master/src/widgets/PrivacyWidget.php)
++ [Privacy Trait](https://github.com/luyadev/luya-privacy/blob/master/src/traits/PrivacyTrait.php)
