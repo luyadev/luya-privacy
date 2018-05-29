@@ -20,7 +20,7 @@ use luya\privacy\traits\PrivacyTrait;
  * or having been checked through \luya\privacy\traits\PrivacyTrait's `isPrivacyAccepted()` method.
  *
  * Usage:
- * 
+ *
  * ```php
  * PrivacyWidget::widget([
  *      'message' => 'We use cookies on our site. Please read and accept our privacy agreement',
@@ -93,7 +93,7 @@ class PrivacyWidget extends Widget
 
     /**
      * Build the html tag.
-     * 
+     *
      * @param $config string The configuration (E.g. the button config).
      * @param $defaultTag string The html tag which is used as default if there is nothing set.
      * @param $defaultcontent string The content which is set if there is nothing set.
@@ -126,7 +126,7 @@ class PrivacyWidget extends Widget
     /**
      * If privacy policies are whether accepted nor declined, or forcing output is set, it will show up the widget.
      * The widget gives the user the ability to chose the cookie settings.
-     * 
+     *
      * @return string
      */
     public function run()
@@ -140,7 +140,6 @@ class PrivacyWidget extends Widget
         }
         
         if ($this->isPrivacyNotDecided() || $this->forceOutput) {
-            
             return $this->render('privacywidget', [
                 'css' => $this->css,
                 'messageDiv' => $this->buildTag($this->message, 'div', Module::t('privacy_widget.privacy_content')),

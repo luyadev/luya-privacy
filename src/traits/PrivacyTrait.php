@@ -21,10 +21,10 @@ trait PrivacyTrait
 
     /**
      * Cookie Value.
-     * 
+     *
      * Method to retreive the actual privacy policies' state, e.g. whether a user has accepted or declined these.
      * It returns null if the user has not made any choice at all yet.
-     * 
+     *
      * @return boolean|null The privacy value
      */
     public function getPrivacyCookieValue()
@@ -40,10 +40,10 @@ trait PrivacyTrait
 
     /**
      * Sets the privacy cookie value.
-     * 
+     *
      * If it sets this to true, it will allow cookies, if set to false, it will place a single cookie which tells that
      * a user declined the privacy policies. Therefore no other cookies should be allowed.
-     * 
+     *
      * @param string|boolean $value
      */
     public function setPrivacyCookieValue($value = null)
@@ -56,7 +56,7 @@ trait PrivacyTrait
 
     /**
      * Whether privacy cookie is accepted.
-     * 
+     *
      * @return boolean Returns true if accepted.
      */
     public function isPrivacyAccepted()
@@ -66,7 +66,7 @@ trait PrivacyTrait
     
     /**
      * Whether privacy cookie is not decieded.
-     * 
+     *
      * @return boolean Returns true if not decied.
      */
     public function isPrivacyNotDecided()
@@ -76,7 +76,7 @@ trait PrivacyTrait
 
     /**
      * Whether privacy cookie is declined.
-     * 
+     *
      * @return boolean Returns true if declined.
      */
     public function isPrivacyDeclined()

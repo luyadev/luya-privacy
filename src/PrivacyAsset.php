@@ -9,13 +9,13 @@ use luya\web\Asset;
  * Privacy Asset File.
  *
  * The privacy asset file adds the possibility to add javascript files which need the privacy policy accepted.
- * 
+ *
  * Example usage
- * 
+ *
  * ```php
- * class MyCustomTrackerAsset extends PrivacyAsset 
+ * class MyCustomTrackerAsset extends PrivacyAsset
  * {
- *     
+ *
  *     $jsOnPrivacyAccepted = [
  *         '//google.com/cdn/js/google-analytics.js',
  *         '//facebook.com/cdn/js/facebook-pixel.js',
