@@ -70,7 +70,7 @@ class PrivacyWidget extends Widget
      * @var string CSS to be applied
      * Custom CSS can be used to style the
      */
-    public $css = '.privacyPolicyConsent {
+    public $css = '.luya-privacy-widget-container {
                         position: fixed;
                         width: 100%;
                         left: 0;
@@ -82,13 +82,6 @@ class PrivacyWidget extends Widget
                         padding: 1em;
                         align-items: center;
                         justify-content: space-between;
-                    }
-                    .privacyPolicyConsent.top {
-                        top: 0;
-                        bottom: unset;
-                    }
-                    .privacyPolicyConsent a {
-                        color: #fff;
                     }';
 
     /**
