@@ -19,7 +19,9 @@ The LUYA privacy extension has helpers for privacy management, as needed by cert
 
 Install the extension through composer:
 
-`composer require luyadev/luya-privacy:dev-master`
+```sh
+composer require luyadev/luya-privacy:~1.0.0
+```
 
 ## Usage
 
