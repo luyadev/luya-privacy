@@ -27,7 +27,7 @@ use luya\privacy\traits\PrivacyTrait;
  *      'acceptButton' => [
  *          'content' => 'I accept',
  *      ],
- * );
+ * ]);
  * ```
  *
  * @todo Position -> fixed / relative
