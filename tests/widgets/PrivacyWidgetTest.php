@@ -1,6 +1,7 @@
 <?php
 namespace luya\privacy\tests\widgets;
 
+use Yii;
 use luya\privacy\tests\PrivacyTestCase;
 use luya\privacy\widgets\PrivacyWidget;
 
@@ -8,7 +9,34 @@ class PrivacyWidgetTest extends PrivacyTestCase
 {
     public function testWidgetStandardOutput()
     {
-        $this->assertSameTrimmed('<div class="luya-privacy-widget-container"><div>We use cookies to improve your experience on our website. Please read and accept our privacy policies.</div><a class="btn btn-primary" href="?acceptCookies=1">Accept</a></div>', PrivacyWidget::widget(['forceOutput' => true]));
+        $this->assertSameTrimmed('<div class="luya-privacy-widget-container"><div>We use cookies to improve your experience on our website. Please read and accept our privacy policies.</div><a class="btn btn-primary" href="/?acceptCookies=1">Accept</a></div>', PrivacyWidget::widget(['forceOutput' => true]));
+    }
+
+    public function testAppendUrl()
+    {
+        $w = new PrivacyWidget();
+
+        $this->assertSame('/?bar=foo', $w->createAppendUrl('?bar=foo'));
+
+        Yii::$app->request->url = 'https://luya.io?hello=word';
+        $this->assertSame('https://luya.io?hello=word&bar=foo', $w->createAppendUrl('?bar=foo'));
+        $this->assertSame('https://luya.io?hello=word&bar=foo', $w->createAppendUrl('bar=foo'));
+        $this->assertSame('https://luya.io?hello=word&bar=foo', $w->createAppendUrl('&bar=foo'));
+    }
+
+    public function testSpecialAppendCase()
+    {
+        $w = new PrivacyWidget();
+        Yii::$app->request->url = 'https://luya.io?hello=word&';
+        $this->assertSame('https://luya.io?hello=word&bar=foo', $w->createAppendUrl('?bar=foo'));
+        $this->assertSame('https://luya.io?hello=word&bar=foo', $w->createAppendUrl('bar=foo'));
+        $this->assertSame('https://luya.io?hello=word&bar=foo', $w->createAppendUrl('&bar=foo'));
+
+        $w = new PrivacyWidget();
+        Yii::$app->request->url = 'https://luya.io';
+        $this->assertSame('https://luya.io?bar=foo', $w->createAppendUrl('?bar=foo'));
+        $this->assertSame('https://luya.io?bar=foo', $w->createAppendUrl('bar=foo'));
+        $this->assertSame('https://luya.io?bar=foo', $w->createAppendUrl('&bar=foo'));
     }
 
     /*

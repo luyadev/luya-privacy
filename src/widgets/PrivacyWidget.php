@@ -7,6 +7,7 @@ use luya\helpers\ArrayHelper;
 use luya\helpers\Html;
 use luya\privacy\Module;
 use luya\privacy\traits\PrivacyTrait;
+use luya\helpers\StringHelper;
 
 /**
  * Privacy Widget
@@ -51,7 +52,7 @@ class PrivacyWidget extends Widget
      */
     public $acceptButton = [
         'tag' => 'a',
-        'href' => '?acceptCookies=1',
+        'href' => 'acceptCookies=1',
         'class' => 'btn btn-primary',
     ];
 
@@ -132,6 +133,8 @@ class PrivacyWidget extends Widget
             $this->setPrivacyCookieValue(true);
         }
         
+        $this->acceptButton['href'] = $this->createAppendUrl($this->acceptButton['href']);
+
         if ($this->isPrivacyNotDecided() || $this->forceOutput) {
             return $this->render('privacywidget', [
                 'css' => $this->css,
@@ -140,5 +143,31 @@ class PrivacyWidget extends Widget
                 'declineButton' => $this->buildTag($this->declineButton, 'a', Module::t('privacy_widget.decline_privacy_button_text')),
             ]);
         }
+    }
+    
+    /**
+     * 
+     * Append the accept string to a given url.
+     *
+     * @param string $append The string to append to the current url `foo=bar`
+     * @return string
+     * @since 1.0.2
+     */
+    public function createAppendUrl($append)
+    {
+        $url = Yii::$app->request->url;
+        $append = ltrim(ltrim($append, '&'), '?');
+
+        // use &
+        if (StringHelper::contains('?', $url)) {
+            if (StringHelper::endsWith($url, '&')) {
+                return $url . $append;
+            }
+
+            return $url . '&' . $append;
+        }
+        
+        // use ?
+        return $url . '?' . $append;
     }
 }
