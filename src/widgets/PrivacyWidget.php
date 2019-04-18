@@ -86,6 +86,12 @@ class PrivacyWidget extends Widget
                     }';
 
     /**
+     * @var string CSS class to be applied to the container
+     * Custom CSS class can be used to style the container
+     */
+    public $cssClass = '';
+
+    /**
      * Build the html tag.
      *
      * @param $config string The configuration (E.g. the button config).
@@ -138,6 +144,7 @@ class PrivacyWidget extends Widget
         if ($this->isPrivacyNotDecided() || $this->forceOutput) {
             return $this->render('privacywidget', [
                 'css' => $this->css,
+                'cssClass' => $this->cssClass,
                 'messageDiv' => $this->buildTag($this->message, 'div', Module::t('privacy_widget.privacy_content')),
                 'acceptButton' => $this->buildTag($this->acceptButton, 'a', Module::t('privacy_widget.accept_privacy_button_text')),
                 'declineButton' => $this->buildTag($this->declineButton, 'a', Module::t('privacy_widget.decline_privacy_button_text')),
