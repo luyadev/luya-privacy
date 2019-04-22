@@ -88,8 +88,9 @@ class PrivacyWidget extends Widget
     /**
      * @var string CSS class to be applied to the container
      * Custom CSS class can be used to style the container
+     * @since 1.0.3
      */
-    public $cssClass = '';
+    public $cssClass;
 
     /**
      * Build the html tag.
