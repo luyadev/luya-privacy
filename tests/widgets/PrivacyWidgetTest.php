@@ -12,6 +12,11 @@ class PrivacyWidgetTest extends PrivacyTestCase
         $this->assertSameTrimmed('<div class="luya-privacy-widget-container"><div>We use cookies to improve your experience on our website. Please read and accept our privacy policies.</div><a class="btn btn-primary" href="/?acceptCookies=1">Accept</a></div>', PrivacyWidget::widget(['forceOutput' => true]));
     }
 
+    public function testWidgetOutputWithContainerClass()
+    {
+        $this->assertSameTrimmed('<div class="luya-privacy-widget-container fixed-bottom"><div>We use cookies to improve your experience on our website. Please read and accept our privacy policies.</div><a class="btn btn-primary" href="/?acceptCookies=1">Accept</a></div>', PrivacyWidget::widget(['forceOutput' => true, 'cssClass' => 'fixed-bottom']));
+    }
+
     public function testAppendUrl()
     {
         $w = new PrivacyWidget();
