@@ -145,7 +145,7 @@ class PrivacyWidget extends Widget
         if ($this->isPrivacyNotDecided() || $this->forceOutput) {
             return $this->render('privacywidget', [
                 'css' => $this->css,
-                'cssClass' => $this->cssClass,
+                'containerCssClass' => $this->containerCssClass,
                 'messageDiv' => $this->buildTag($this->message, 'div', Module::t('privacy_widget.privacy_content')),
                 'acceptButton' => $this->buildTag($this->acceptButton, 'a', Module::t('privacy_widget.accept_privacy_button_text')),
                 'declineButton' => $this->buildTag($this->declineButton, 'a', Module::t('privacy_widget.decline_privacy_button_text')),
