@@ -10,7 +10,7 @@ if ($css) {
     $this->registerCss($css);
 }
 ?>
-<div class="luya-privacy-widget-container<?= ($containerCssClass) ? ' '.$containerCssClass : '' ?>">
+<div class="luya-privacy-widget-container<?= (!empty($containerCssClass)) ? ' '.$containerCssClass : '' ?>">
     <?= $messageDiv; ?>
     <?= $acceptButton; ?>
     <?= $declineButton; ?>
