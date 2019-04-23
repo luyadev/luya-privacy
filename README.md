@@ -20,7 +20,7 @@ The LUYA privacy extension has helpers for privacy management, as needed by cert
 Install the extension through composer:
 
 ```sh
-composer require luyadev/luya-privacy:~1.0.0
+composer require luyadev/luya-privacy:^1.0
 ```
 
 ## Usage
