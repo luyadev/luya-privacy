@@ -44,6 +44,13 @@ class PrivacyWidgetTest extends PrivacyTestCase
         $this->assertSame('https://luya.io?bar=foo', $w->createAppendUrl('&bar=foo'));
     }
 
+    public function testPrivacyState()
+    {
+        $w = new PrivacyWidget();
+        $this->assertFalse($w->isPrivacyAccepted());
+        $this->assertFalse($w->isPrivacyDeclined());
+        $this->assertTrue($w->isPrivacyNotDecided());
+    }
     /*
     public function testDeclineButtonOutput()
     {
