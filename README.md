@@ -5,8 +5,11 @@
 # LUYA privacy extension
 
 [![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
+[![Build Status](https://travis-ci.org/luyadev/luya-privacy.svg?branch=master)](https://travis-ci.org/luyadev/luya-privacy)
 [![Latest Stable Version](https://poser.pugx.org/luyadev/luya-privacy/v/stable)](https://packagist.org/packages/luyadev/luya-privacy)
 [![Total Downloads](https://poser.pugx.org/luyadev/luya-privacy/downloads)](https://packagist.org/packages/luyadev/luya-privacy)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f4ab0de608b22961899d/maintainability)](https://codeclimate.com/github/luyadev/luya-privacy/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f4ab0de608b22961899d/test_coverage)](https://codeclimate.com/github/luyadev/luya-privacy/test_coverage)
 [![Slack Support](https://img.shields.io/badge/Slack-luyadev-yellowgreen.svg)](https://slack.luya.io/)
 
 The LUYA privacy extension has helpers for privacy management, as needed by certain privacy laws.
