@@ -31,8 +31,6 @@ use luya\helpers\StringHelper;
  * ]);
  * ```
  *
- * @todo Position -> fixed / relative
- *
  * @author Alex Schmid <alex.schmid@stud.unibas.ch>
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -154,7 +152,7 @@ class PrivacyWidget extends Widget
     }
     
     /**
-     * 
+     *
      * Append the accept string to a given url.
      *
      * @param string $append The string to append to the current url `foo=bar`
