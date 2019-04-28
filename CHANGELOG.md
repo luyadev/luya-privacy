@@ -5,7 +5,8 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 ## 1.0.3 (in progress)
 
-+ [#9](https://github.com/luyadev/luya-privacy/issues/9) Added container css class
++ [#13](https://github.com/luyadev/luya-privacy/issues/13) Change the life time of the cookie to a year instead of current browser session.
++ [#9](https://github.com/luyadev/luya-privacy/issues/9) Added option to add a container css class.
 
 ## 1.0.2 (16. January 2019)
 

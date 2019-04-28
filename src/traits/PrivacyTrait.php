@@ -51,6 +51,7 @@ trait PrivacyTrait
         Yii::$app->response->cookies->add(new Cookie([
             'name' => self::$PRIVACY_COOKIE_NAME,
             'value' => $value,
+            'expire' => time() + 86400 * 365, // now + one year
         ]));
     }
 
