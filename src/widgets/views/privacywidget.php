@@ -14,7 +14,8 @@ if ($css) {
 ?>
 <div class="luya-privacy-widget-container<?= (!empty($containerCssClass)) ? ' '.$containerCssClass : '' ?>">
     <?= $messageDiv; ?>
-    <?= Html::beginForm(); ?>
+    <?= Html::beginForm('', 'post', ['id' => 'privacy-form']); ?>
+    <input type="hidden" name="_csrf" value="<?= Yii::$app->request->csrfToken; ?>" />
     <?= $acceptButton; ?>
     <?= $declineButton; ?>
     <?= Html::endForm(); ?>
