@@ -5,6 +5,8 @@
 /* @var $declineButton string */
 /* @var $this \luya\web\View */
 
+use luya\helpers\Html;
+
 // register css styles if available
 if ($css) {
     $this->registerCss($css);
@@ -12,6 +14,8 @@ if ($css) {
 ?>
 <div class="luya-privacy-widget-container<?= (!empty($containerCssClass)) ? ' '.$containerCssClass : '' ?>">
     <?= $messageDiv; ?>
+    <?= Html::beginForm(); ?>
     <?= $acceptButton; ?>
     <?= $declineButton; ?>
+    <?= Html::endForm(); ?>
 </div>

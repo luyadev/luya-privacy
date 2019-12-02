@@ -49,13 +49,21 @@ class PrivacyWidget extends Widget
      * @var array The button element in order to accept privacy
      */
     public $acceptButton = [
-        'tag' => 'a',
-        'href' => 'acceptCookies=1',
+        'tag' => 'button',
+        'name' => 'acceptCookies',
+        'content' => 'I accept',
         'class' => 'btn btn-primary',
     ];
 
     /**
      * @var array|boolean The decline button element, if false it will not be rendered.
+     *
+     * $declineButton = [
+     *     'tag' => 'button',
+     *     'name' => 'acceptCookiesNot',
+     *     'content' => 'No',
+     *     'class' => 'btn btn-dark',
+     * ];
      */
     public $declineButton = false;
 
@@ -130,15 +138,11 @@ class PrivacyWidget extends Widget
      */
     public function run()
     {
-        // see if user clicks on a button
-        $acceptCookies = Yii::$app->request->get('acceptCookies');
-        
-        // cookie param provided with status accepted
-        if ($acceptCookies == '1') {
+        if (Yii::$app->request->post('acceptCookies') === '') {
             $this->setPrivacyCookieValue(true);
+        } else if (Yii::$app->request->post('acceptCookiesNot') === '') {
+            $this->setPrivacyCookieValue(false);
         }
-        
-        $this->acceptButton['href'] = $this->createAppendUrl($this->acceptButton['href']);
 
         if ($this->isPrivacyNotDecided() || $this->forceOutput) {
             return $this->render('privacywidget', [
@@ -149,31 +153,5 @@ class PrivacyWidget extends Widget
                 'declineButton' => $this->buildTag($this->declineButton, 'a', Module::t('privacy_widget.decline_privacy_button_text')),
             ]);
         }
-    }
-    
-    /**
-     *
-     * Append the accept string to a given url.
-     *
-     * @param string $append The string to append to the current url `foo=bar`
-     * @return string
-     * @since 1.0.2
-     */
-    public function createAppendUrl($append)
-    {
-        $url = Yii::$app->request->url;
-        $append = ltrim(ltrim($append, '&'), '?');
-
-        // use &
-        if (StringHelper::contains('?', $url)) {
-            if (StringHelper::endsWith($url, '&')) {
-                return $url . $append;
-            }
-
-            return $url . '&' . $append;
-        }
-        
-        // use ?
-        return $url . '?' . $append;
     }
 }
