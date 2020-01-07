@@ -18,7 +18,7 @@ use luya\helpers\StringHelper;
  *
  * Attention: The widget's functionality can be broken if it is not correctly used! It has to be taken in account that
  * the trackers or other cookies need to be set through either the \luya\privacy\assets\PrivacyAsset's $jsOnPrivacyAccepted
- * or having been checked through \luya\privacy\traits\PrivacyTrait's `isPrivacyAccepted()` method.
+ * or having been checked through {{luya\privacy\traits\PrivacyTrait}} `isPrivacyAccepted()` method.
  *
  * Usage:
  *
@@ -91,6 +91,18 @@ class PrivacyWidget extends Widget
     public $containerCssClass;
 
     /**
+     * @var callable A function which recieves the the widget content as first parameter.
+     * 
+     * ```php
+     * 'wrapper' => function($content) {
+     *     return '<div class="some-wrappers">'.$content.'</div>';
+     * }
+     * ```
+     * @since 1.0.4
+     */
+    public $wrapper;
+
+    /**
      * Build the html tag.
      *
      * @param $config string The configuration (E.g. the button config).
@@ -141,13 +153,19 @@ class PrivacyWidget extends Widget
         $this->acceptButton['href'] = $this->createAppendUrl($this->acceptButton['href']);
 
         if ($this->isPrivacyNotDecided() || $this->forceOutput) {
-            return $this->render('privacywidget', [
+            $widget = $this->render('privacywidget', [
                 'css' => $this->css,
                 'containerCssClass' => $this->containerCssClass,
                 'messageDiv' => $this->buildTag($this->message, 'div', Module::t('privacy_widget.privacy_content')),
                 'acceptButton' => $this->buildTag($this->acceptButton, 'a', Module::t('privacy_widget.accept_privacy_button_text')),
                 'declineButton' => $this->buildTag($this->declineButton, 'a', Module::t('privacy_widget.decline_privacy_button_text')),
             ]);
+
+            if ($this->wrapper) {
+                return call_user_func($this->wrapper, $widget);
+            }
+
+            return $widget;
         }
     }
     

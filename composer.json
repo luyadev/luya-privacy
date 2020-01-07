@@ -2,7 +2,7 @@
 	"name" : "luyadev/luya-privacy",
 	"description" : "The LUYA Privacy extension provides helpers for privacy.",
 	"type" : "luya-extension",
-	"keywords" : ["php", "luya", "extension", "yii2", "yii", "privacy", "cookie", "gpdr", "widget"],
+	"keywords" : ["php", "luya", "extension", "yii2", "yii", "privacy", "cookie", "gpdr", "widget", "cookie"],
 	"license": "MIT",
 	"homepage" : "http://luya.io",
 	"authors" : [
@@ -20,7 +20,7 @@
 		"issues" : "https://github.com/luyadev/luya-privacy/issues"
 	},
 	"require-dev" : {
-	    "luyadev/luya-testsuite" : "~1.0.0"
+	    "luyadev/luya-testsuite" : "^1.0"
 	},
 	"autoload" : {
 		"psr-4" : {
@@ -31,10 +31,5 @@
        "psr-4" : {
            "luya\\privacy\\tests\\" : "tests/"
        }
-    },
-	"extra": {
-        "luya" : {
-        	"blocks" : ["src/frontend/blocks"]
-        }
     }
 }

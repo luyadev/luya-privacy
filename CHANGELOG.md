@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.0.4 (7. January 2020)
+
++ [#16](https://github.com/luyadev/luya-privacy/pull/16) New wrapper widget property to enable more flexible wrappers for the widget if no cookie decision has been made.
+
 ## 1.0.3 (28. April 2019)
 
 + [#13](https://github.com/luyadev/luya-privacy/issues/13) Change the life time of the cookie to a year instead of current browser session.

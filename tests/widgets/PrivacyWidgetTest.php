@@ -51,6 +51,18 @@ class PrivacyWidgetTest extends PrivacyTestCase
         $this->assertFalse($w->isPrivacyDeclined());
         $this->assertTrue($w->isPrivacyNotDecided());
     }
+
+    public function testWrapper()
+    {
+        $content = PrivacyWidget::widget([
+            'wrapper' => function($content) {
+                return '<around>'.$content.'</around>';
+            }
+        ]);
+
+        $this->assertSameTrimmed('<around><div class="luya-privacy-widget-container">
+        <div>We use cookies to improve your experience on our website. Please read and accept our privacy policies.</div>    <a class="btn btn-primary" href="/?acceptCookies=1">Accept</a>    </div></around>', $content);
+    }
     /*
     public function testDeclineButtonOutput()
     {
