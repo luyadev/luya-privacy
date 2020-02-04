@@ -6,6 +6,7 @@ php:
   - '7.1'
   - '7.2'
   - '7.3'
+  - '7.4'
   - hhvm # on Trusty only
   - nightly
 matrix:
@@ -17,7 +18,7 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
 script:
-  - composer install --prefer-dist --no-interaction
+  - composer install --prefer-dist --no-interaction --ignore-platform-reqs --prefer-dist
   - vendor/bin/phpunit tests/ $PHPUNIT_FLAGS --configuration travis.phpunit.xml
 after_script:
   - if [[ "$TRAVIS_PHP_VERSION" == "7.1" ]]; then ./cc-test-reporter after-build -t clover --exit-code $TRAVIS_TEST_RESULT; fi
