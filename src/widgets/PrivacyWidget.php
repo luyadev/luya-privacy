@@ -151,7 +151,12 @@ class PrivacyWidget extends Widget
         }
         
         $this->acceptButton['href'] = $this->createAppendUrl($this->acceptButton['href']);
-
+        $this->acceptButton['rel'] = 'nofollow';
+        
+        if ($this->declineButton !== false) {
+            $this->declineButton['rel'] = 'nofollow';
+        }
+        
         if ($this->isPrivacyNotDecided() || $this->forceOutput) {
             $widget = $this->render('privacywidget', [
                 'css' => $this->css,
