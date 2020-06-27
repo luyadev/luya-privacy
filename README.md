@@ -5,7 +5,7 @@
 # LUYA privacy extension
 
 [![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
-[![Build Status](https://travis-ci.org/luyadev/luya-privacy.svg?branch=master)](https://travis-ci.org/luyadev/luya-privacy)
+![Tests](https://github.com/luyadev/luya-privacy/workflows/Tests/badge.svg)
 [![Latest Stable Version](https://poser.pugx.org/luyadev/luya-privacy/v/stable)](https://packagist.org/packages/luyadev/luya-privacy)
 [![Total Downloads](https://poser.pugx.org/luyadev/luya-privacy/downloads)](https://packagist.org/packages/luyadev/luya-privacy)
 [![Maintainability](https://api.codeclimate.com/v1/badges/f4ab0de608b22961899d/maintainability)](https://codeclimate.com/github/luyadev/luya-privacy/maintainability)
