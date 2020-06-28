@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. This projec
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
 
-## 1.0.6 (27. June 2020)
+## 1.0.6 (28. June 2020)
 
 + [#18](https://github.com/luyadev/luya-privacy/pull/18) Added `rel="nofollow"` to accept and decline anchors.
 
