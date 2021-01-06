@@ -7,7 +7,7 @@ use luya\helpers\ArrayHelper;
 use luya\helpers\Html;
 use luya\privacy\Module;
 use luya\privacy\traits\PrivacyTrait;
-use luya\helpers\StringHelper;
+use luya\helpers\Url;
 
 /**
  * Privacy Widget
@@ -39,6 +39,8 @@ class PrivacyWidget extends Widget
 {
     use PrivacyTrait;
 
+    public $acceptParam = 'acceptCookies';
+
     /**
      * @var string|array Provide a string which is the content from the div, or provide an array in order to build a full
      * html element.
@@ -50,7 +52,6 @@ class PrivacyWidget extends Widget
      */
     public $acceptButton = [
         'tag' => 'a',
-        'href' => 'acceptCookies=1',
         'class' => 'btn btn-primary',
     ];
 
@@ -103,6 +104,16 @@ class PrivacyWidget extends Widget
     public $wrapper;
 
     /**
+     * Builds the accept url with the accept param
+     *
+     * @return string
+     */
+    public function buildAcceptUrl()
+    {
+        return Url::appendQuery([$this->acceptParam => 1], true);
+    }
+
+    /**
      * Build the html tag.
      *
      * @param $config string The configuration (E.g. the button config).
@@ -143,15 +154,20 @@ class PrivacyWidget extends Widget
     public function run()
     {
         // see if user clicks on a button
-        $acceptCookies = Yii::$app->request->get('acceptCookies');
+        $acceptCookies = Yii::$app->request->get($this->acceptParam);
         
         // cookie param provided with status accepted
         if ($acceptCookies == '1') {
             $this->setPrivacyCookieValue(true);
         }
+
+        if (!array_key_exists('href', $this->acceptButton)) {
+            $this->acceptButton['href'] = $this->buildAcceptUrl();
+        }
         
-        $this->acceptButton['href'] = $this->createAppendUrl($this->acceptButton['href']);
-        $this->acceptButton['rel'] = 'nofollow';
+        if (!array_key_exists('rel', $this->acceptButton)) {
+            $this->acceptButton['rel'] = 'nofollow';
+        }
         
         if ($this->declineButton !== false) {
             $this->declineButton['rel'] = 'nofollow';
@@ -172,31 +188,5 @@ class PrivacyWidget extends Widget
 
             return $widget;
         }
-    }
-    
-    /**
-     *
-     * Append the accept string to a given url.
-     *
-     * @param string $append The string to append to the current url `foo=bar`
-     * @return string
-     * @since 1.0.2
-     */
-    public function createAppendUrl($append)
-    {
-        $url = Yii::$app->request->url;
-        $append = ltrim(ltrim($append, '&'), '?');
-
-        // use &
-        if (StringHelper::contains('?', $url)) {
-            if (StringHelper::endsWith($url, '&')) {
-                return $url . $append;
-            }
-
-            return $url . '&' . $append;
-        }
-        
-        // use ?
-        return $url . '?' . $append;
     }
 }

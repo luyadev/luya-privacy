@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.1.0
+
++ []() Added option to set custom get param and using the LUYA Url helper appendQuery() method.
 
 ## 1.0.6 (28. June 2020)
 
