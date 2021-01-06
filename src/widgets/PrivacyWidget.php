@@ -39,6 +39,10 @@ class PrivacyWidget extends Widget
 {
     use PrivacyTrait;
 
+    /**
+     * @var string The get param which should be used to generate the accept url.
+     * @since 1.1.0
+     */
     public $acceptParam = 'acceptCookies';
 
     /**
@@ -104,9 +108,10 @@ class PrivacyWidget extends Widget
     public $wrapper;
 
     /**
-     * Builds the accept url with the accept param
+     * Builds the accept url with the accept param and the current url and absolute schema
      *
      * @return string
+     * @since 1.1.0
      */
     public function buildAcceptUrl()
     {
