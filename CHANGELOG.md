@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.1.2 (18. March 2022)
+
++ [#24](https://github.com/luyadev/luya-privacy/pull/24) Fixed TR Translation file name.
+
 ## 1.1.1 (16. March 2022)
 
 + [#23](https://github.com/luyadev/luya-privacy/pull/23) TR Translations
